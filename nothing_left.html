@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Маленький сюрприз для Марка</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      color: #f4f0ff;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(ellipse at 50% 0%, #30204d 0%, transparent 55%),
+        linear-gradient(160deg, #090914, #111326 65%, #090914);
+      overflow-x: hidden;
+    }
+
+    .stars, .stars::before, .stars::after {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      content: "";
+      background-image:
+        radial-gradient(2px 2px at 12% 22%, #d9c7ff 70%, transparent),
+        radial-gradient(2px 2px at 81% 18%, #7de7ff 70%, transparent),
+        radial-gradient(2px 2px at 63% 76%, #e6b9ff 70%, transparent),
+        radial-gradient(1.5px 1.5px at 32% 84%, #fff 70%, transparent),
+        radial-gradient(2px 2px at 91% 61%, #9e8cff 70%, transparent);
+      background-size: 360px 300px;
+      opacity: .55;
+      animation: twinkle 5s ease-in-out infinite alternate;
+    }
+
+    .stars::before {
+      opacity: .45;
+      transform: translate(70px, 45px);
+      animation-delay: -2s;
+    }
+
+    .stars::after {
+      opacity: .35;
+      transform: translate(-35px, 95px);
+      animation-delay: -3.5s;
+    }
+
+    @keyframes twinkle {
+      from { opacity: .25; }
+      to { opacity: .75; }
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 560px);
+      padding: 38px 30px;
+      border: 1px solid rgba(207, 176, 255, .28);
+      border-radius: 24px;
+      background: rgba(17, 18, 39, .82);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .4),
+                  0 0 45px rgba(165, 105, 255, .12);
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .eyebrow {
+      color: #c9a7ff;
+      text-transform: uppercase;
+      letter-spacing: .22em;
+      font-size: .72rem;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 12px 0;
+      font-size: clamp(2rem, 8vw, 3rem);
+      line-height: 1.08;
+    }
+
+    .sub {
+      color: #c8c5d8;
+      line-height: 1.65;
+      margin: 12px auto 0;
+      max-width: 390px;
+    }
+
+    .lock {
+      font-size: 2rem;
+      margin: 20px 0 10px;
+      filter: drop-shadow(0 0 12px rgba(203, 161, 255, .4));
+    }
+
+    input {
+      width: 100%;
+      margin-top: 24px;
+      padding: 15px 16px;
+      border: 1px solid #554577;
+      border-radius: 12px;
+      outline: none;
+      background: #0d0e20;
+      color: white;
+      font: inherit;
+      text-align: center;
+      letter-spacing: .08em;
+    }
+
+    input:focus {
+      border-color: #c79aff;
+      box-shadow: 0 0 0 3px rgba(199, 154, 255, .13);
+    }
+
+    button {
+      width: 100%;
+      margin-top: 12px;
+      padding: 15px;
+      border: 0;
+      border-radius: 12px;
+      color: #171025;
+      background: linear-gradient(100deg, #d5a9ff, #8deaff);
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .2s, filter .2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+    }
+
+    .error {
+      min-height: 24px;
+      margin-top: 12px;
+      color: #ff8ba8;
+      font-size: .9rem;
+    }
+
+    .hidden { display: none; }
+
+    .cake {
+      position: relative;
+      width: 210px;
+      height: 190px;
+      margin: 25px auto 12px;
+    }
+
+    .candle {
+      position: absolute;
+      bottom: 130px;
+      width: 9px;
+      height: 36px;
+      border-radius: 4px 4px 2px 2px;
+      background: repeating-linear-gradient(
+        135deg, #fff 0 5px, #d69aff 5px 10px
+      );
+      z-index: 2;
+    }
+
+    .candle:nth-child(1) { left: 66px; }
+    .candle:nth-child(2) { left: 101px; }
+    .candle:nth-child(3) { left: 136px; }
+
+    .flame {
+      position: absolute;
+      width: 13px;
+      height: 18px;
+      left: -2px;
+      top: -20px;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      background: #ffe58a;
+      box-shadow: 0 0 18px #ffb84d;
+      animation: flicker .55s infinite alternate;
+    }
+
+    @keyframes flicker {
+      from { transform: rotate(-45deg) scale(.88); }
+      to { transform: rotate(-40deg) scale(1.08); }
+    }
+
+    .icing {
+      position: absolute;
+      left: 25px;
+      bottom: 76px;
+      width: 160px;
+      height: 35px;
+      border-radius: 14px 14px 10px 10px;
+      background: #ffc5df;
+      z-index: 1;
+    }
+
+    .icing::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 17px;
+      width: 100%;
+      height: 18px;
+      background: #ffc5df;
+      border-radius: 0 0 12px 12px;
+    }
+
+    .icing::after {
+      content: "♥   ♥   ♥";
+      position: absolute;
+      width: 100%;
+      top: 5px;
+      color: #a74482;
+      font-size: 14px;
+      letter-spacing: 10px;
+      text-align: center;
+    }
+
+    .cake-top {
+      position: absolute;
+      left: 25px;
+      bottom: 58px;
+      width: 160px;
+      height: 45px;
+      border-radius: 8px 8px 4px 4px;
+      background: #b76fe0;
+      box-shadow: inset 0 -8px rgba(91, 38, 130, .18);
+    }
+
+    .cake-bottom {
+      position: absolute;
+      left: 13px;
+      bottom: 18px;
+      width: 184px;
+      height: 43px;
+      border-radius: 7px 7px 13px 13px;
+      background: #8c54c9;
+      box-shadow: inset 0 -9px rgba(54, 27, 100, .18);
+    }
+
+    .plate {
+      position: absolute;
+      left: 0;
+      bottom: 8px;
+      width: 210px;
+      height: 14px;
+      border-radius: 50%;
+      background: #d6d5ff;
+      box-shadow: 0 5px 18px rgba(194, 174, 255, .3);
+    }
+
+    .wish {
+      margin: 18px auto 0;
+      max-width: 420px;
+      color: #e9e5f7;
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+
+    .signature {
+      margin-top: 24px;
+      color: #cda8ff;
+      font-weight: 700;
+    }
+
+    .heart {
+      display: inline-block;
+      color: #ff7ca9;
+      animation: heartbeat 1.2s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      15% { transform: scale(1.18); }
+      30% { transform: scale(1); }
+      45% { transform: scale(1.12); }
+    }
+
+    .confetti {
+      position: fixed;
+      top: -12px;
+      z-index: 3;
+      pointer-events: none;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(700deg);
+        opacity: .1;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .card { padding: 30px 20px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="stars"></div>
+
+  <main class="card">
+    <section id="locked">
+      <div class="eyebrow">маленький сюрприз</div>
+      <div class="lock">🔐</div>
+      <h1>Для Марка</h1>
+      <p class="sub">
+        Тут спрятано кое-что праздничное.<br>
+        Введи пароль, чтобы открыть открытку.
+      </p>
+
+      <form id="unlockForm">
+        <input
+          id="password"
+          type="password"
+          placeholder="Пароль"
+          autocomplete="off"
+          aria-label="Пароль"
+        >
+        <button type="submit">Открыть сюрприз</button>
+      </form>
+
+      <div class="error" id="error" aria-live="polite"></div>
+    </section>
+
+    <section id="unlocked" class="hidden">
+      <div class="eyebrow">с прошедшим днём рождения</div>
+      <h1>Марк, с 16-летием!</h1>
+
+      <div class="cake" aria-label="Праздничный торт">
+        <div class="candle"><div class="flame"></div></div>
+        <div class="candle"><div class="flame"></div></div>
+        <div class="candle"><div class="flame"></div></div>
+        <div class="icing"></div>
+        <div class="cake-top"></div>
+        <div class="cake-bottom"></div>
+        <div class="plate"></div>
+      </div>
+
+      <p class="wish">
+        Хоть мы и не знакомы, но я поздравляю тебя с прошедшим!
+        Надеюсь, рядом с тобой есть люди, которые тебя поздравили,
+        поддерживают и делают твои дни светлее.
+        Желаю тебе побольше хороших событий, спокойствия,
+        удачи и моментов, которые захочется запомнить.
+      </p>
+
+      <p class="signature">
+        С праздником! <span class="heart">♥</span>
+      </p>
+    </section>
+  </main>
+
+  <script>
+    // Должен совпадать с паролем, который ты укажешь в Python-открытке
+    const SITE_PASSWORD = "21.09.2010";
+
+    const form = document.getElementById("unlockForm");
+    const passwordInput = document.getElementById("password");
+    const errorBox = document.getElementById("error");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      if (passwordInput.value === SITE_PASSWORD) {
+        document.getElementById("locked").classList.add("hidden");
+        document.getElementById("unlocked").classList.remove("hidden");
+        launchConfetti();
+      } else {
+        errorBox.textContent = "Пароль не подошёл. Попробуй ещё раз.";
+        passwordInput.value = "";
+        passwordInput.focus();
+      }
+    });
+
+    function launchConfetti() {
+      const colors = [
+        "#ff7ca9", "#d5a9ff", "#8deaff",
+        "#ffe58a", "#8cffc1", "#ffffff"
+      ];
+
+      for (let i = 0; i < 100; i++) {
+        const piece = document.createElement("span");
+        piece.className = "confetti";
+        piece.textContent = i % 5 === 0 ? "♥" : "✦";
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.color = colors[i % colors.length];
+        piece.style.fontSize = (10 + Math.random() * 12) + "px";
+        piece.style.animationDuration = (3 + Math.random() * 4) + "s";
+        piece.style.animationDelay = (Math.random() * 1.5) + "s";
+        document.body.appendChild(piece);
+
+        setTimeout(() => piece.remove(), 8500);
+      }
+    }
+  </script>
+</body>
+</html>
