@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Для тебя ❤️</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      color: #f4f0ff;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(ellipse at 50% 0%, #30204d 0%, transparent 55%),
+        linear-gradient(160deg, #090914, #111326 65%, #090914);
+      overflow-x: hidden;
+    }
+
+    .stars, .stars::before, .stars::after {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      content: "";
+      background-image:
+        radial-gradient(2px 2px at 12% 22%, #d9c7ff 70%, transparent),
+        radial-gradient(2px 2px at 81% 18%, #7de7ff 70%, transparent),
+        radial-gradient(2px 2px at 63% 76%, #e6b9ff 70%, transparent),
+        radial-gradient(1.5px 1.5px at 32% 84%, #fff 70%, transparent),
+        radial-gradient(2px 2px at 91% 61%, #9e8cff 70%, transparent);
+      background-size: 360px 300px;
+      opacity: .55;
+      animation: twinkle 5s ease-in-out infinite alternate;
+    }
+
+    .stars::before {
+      opacity: .45;
+      transform: translate(70px, 45px);
+      animation-delay: -2s;
+    }
+
+    .stars::after {
+      opacity: .35;
+      transform: translate(-35px, 95px);
+      animation-delay: -3.5s;
+    }
+
+    @keyframes twinkle {
+      from { opacity: .25; }
+      to { opacity: .75; }
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 620px);
+      padding: 38px 30px;
+      border: 1px solid rgba(207, 176, 255, .28);
+      border-radius: 24px;
+      background: rgba(17, 18, 39, .86);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, .4),
+                  0 0 45px rgba(165, 105, 255, .12);
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .eyebrow {
+      color: #c9a7ff;
+      text-transform: uppercase;
+      letter-spacing: .22em;
+      font-size: .72rem;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 14px 0;
+      font-size: clamp(2rem, 8vw, 3rem);
+      line-height: 1.12;
+    }
+
+    .sub {
+      color: #c8c5d8;
+      line-height: 1.65;
+      margin: 12px auto 0;
+      max-width: 420px;
+    }
+
+    .lock {
+      font-size: 2rem;
+      margin: 20px 0 10px;
+      filter: drop-shadow(0 0 12px rgba(203, 161, 255, .4));
+    }
+
+    input {
+      width: 100%;
+      margin-top: 24px;
+      padding: 15px 16px;
+      border: 1px solid #554577;
+      border-radius: 12px;
+      outline: none;
+      background: #0d0e20;
+      color: white;
+      font: inherit;
+      text-align: center;
+      letter-spacing: .08em;
+    }
+
+    input:focus {
+      border-color: #c79aff;
+      box-shadow: 0 0 0 3px rgba(199, 154, 255, .13);
+    }
+
+    button {
+      width: 100%;
+      margin-top: 12px;
+      padding: 15px;
+      border: 0;
+      border-radius: 12px;
+      color: #171025;
+      background: linear-gradient(100deg, #d5a9ff, #8deaff);
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .2s, filter .2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+    }
+
+    .error {
+      min-height: 24px;
+      margin-top: 12px;
+      color: #ff8ba8;
+      font-size: .9rem;
+    }
+
+    .hidden { display: none; }
+
+    .message {
+      max-width: 500px;
+      margin: 24px auto 0;
+      color: #e9e5f7;
+      font-size: 1.04rem;
+      line-height: 1.9;
+      text-align: left;
+      white-space: pre-line;
+    }
+
+    .signature {
+      margin-top: 28px;
+      color: #cda8ff;
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .heart {
+      display: inline-block;
+      color: #ff7ca9;
+      animation: heartbeat 1.2s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      15% { transform: scale(1.18); }
+      30% { transform: scale(1); }
+      45% { transform: scale(1.12); }
+    }
+
+    .confetti {
+      position: fixed;
+      top: -12px;
+      z-index: 3;
+      pointer-events: none;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(700deg);
+        opacity: .1;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .card { padding: 30px 20px; }
+      .message { font-size: .98rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="stars"></div>
+
+  <main class="card">
+    <section id="locked">
+      <div class="eyebrow">кое-что важное</div>
+      <div class="lock">🔐</div>
+      <h1>Для тебя</h1>
+      <p class="sub">
+        Я давно хотел кое-что сказать.<br>
+        Введи пароль, чтобы прочитать.
+      </p>
+
+      <form id="unlockForm">
+        <input
+          id="password"
+          type="password"
+          placeholder="Пароль"
+          autocomplete="off"
+          aria-label="Пароль"
+          required
+        >
+        <button type="submit">Открыть</button>
+      </form>
+
+      <div class="error" id="error" aria-live="polite"></div>
+    </section>
+
+    <section id="unlocked" class="hidden">
+      <div class="eyebrow">от всего сердца</div>
+      <h1>Для самой особенной девушки <span class="heart">♥</span></h1>
+
+      <div class="message">
+Знаешь, я не всегда умею правильно подбирать слова, особенно когда речь идёт о чём-то действительно важном. Но мне хочется, чтобы ты знала, насколько много ты для меня значишь.
+
+Мне очень нравится общаться с тобой, узнавать тебя всё лучше и замечать, как даже самый обычный день становится приятнее, когда в нём есть ты. Я ловлю себя на том, что жду твоих сообщений, вспоминаю наши разговоры и невольно улыбаюсь, думая о тебе.
+
+Я не хочу говорить громких слов просто ради красивого признания. Мне важнее, чтобы ты понимала: мои чувства искренние. Ты стала для меня особенным человеком, и я хотел бы быть ближе к тебе, проводить больше времени вместе и создавать новые воспоминания.
+
+Я не знаю, что ты чувствуешь в ответ, и не хочу на тебя давить. Мне просто было важно наконец сказать всё это честно.
+
+Ты мне очень нравишься. И я правда рад, что ты появилась в моей жизни.
+      </div>
+
+      <p class="signature">
+        Искренне, от меня <span class="heart">♥</span>
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const SITE_PASSWORD = "03.11.26";
+
+    const form = document.getElementById("unlockForm");
+    const passwordInput = document.getElementById("password");
+    const errorBox = document.getElementById("error");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      if (passwordInput.value === SITE_PASSWORD) {
+        document.getElementById("locked").classList.add("hidden");
+        document.getElementById("unlocked").classList.remove("hidden");
+        launchConfetti();
+      } else {
+        errorBox.textContent = "Пароль не подошёл. Попробуй ещё раз.";
+        passwordInput.value = "";
+        passwordInput.focus();
+      }
+    });
+
+    function launchConfetti() {
+      const colors = [
+        "#ff7ca9", "#d5a9ff", "#8deaff",
+        "#ffe58a", "#8cffc1", "#ffffff"
+      ];
+
+      for (let i = 0; i < 100; i++) {
+        const piece = document.createElement("span");
+        piece.className = "confetti";
+        piece.textContent = i % 5 === 0 ? "♥" : "✦";
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.color = colors[i % colors.length];
+        piece.style.fontSize = (10 + Math.random() * 12) + "px";
+        piece.style.animationDuration = (3 + Math.random() * 4) + "s";
+        piece.style.animationDelay = (Math.random() * 1.5) + "s";
+        document.body.appendChild(piece);
+
+        setTimeout(() => piece.remove(), 8500);
+      }
+    }
+  </script>
+</body>
+</html>
